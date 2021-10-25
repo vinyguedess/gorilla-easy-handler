@@ -12,6 +12,13 @@ type Request struct {
 	queries url.Values
 }
 
+func NewRequest(httpRequest *http.Request) Request {
+	request := Request{}
+	request.SetHttpRequest(httpRequest)
+
+	return request
+}
+
 func (request *Request) SetHttpRequest(httpRequest *http.Request) {
 	request.httpRequest = httpRequest
 	request.params = mux.Vars(httpRequest)

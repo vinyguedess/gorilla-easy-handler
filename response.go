@@ -9,6 +9,12 @@ type Response struct {
 	responseWriter http.ResponseWriter
 }
 
+func NewResponse(responseWriter http.ResponseWriter) Response {
+	response := Response{}
+	response.SetResponseWriter(responseWriter)
+	return response
+}
+
 func (response *Response) SetResponseWriter(responseWriter http.ResponseWriter) *Response {
 	response.responseWriter = responseWriter
 	return response
