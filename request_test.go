@@ -1,4 +1,4 @@
-package main
+package geh
 
 import (
 	"github.com/gorilla/mux"

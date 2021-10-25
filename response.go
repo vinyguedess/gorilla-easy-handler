@@ -1,4 +1,4 @@
-package main
+package geh
 
 import (
 	"encoding/json"
