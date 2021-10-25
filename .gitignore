@@ -1,0 +1,7 @@
+# App files and folders
+coverage
+
+# OS and IDE files and folders
+.idea
+.vscode
+nbproject
