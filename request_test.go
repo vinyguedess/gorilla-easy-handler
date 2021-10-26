@@ -7,6 +7,33 @@ import (
 	"testing"
 )
 
+func TestRequest_GetMethod(t *testing.T) {
+	httpRequest, _ := http.NewRequest("PATCH", "/v1/resource/1", nil)
+
+	request := Request{}
+	request.SetHttpRequest(httpRequest)
+
+	assert.Equal(t, "PATCH", request.GetMethod())
+}
+
+func TestRequest_GetURI(t *testing.T) {
+	httpRequest, _ := http.NewRequest("PATCH", "http://localhost:8080/v1/resource/1?query=string", nil)
+
+	request := Request{}
+	request.SetHttpRequest(httpRequest)
+
+	assert.Equal(t, "/v1/resource/1?query=string", request.GetURI())
+}
+
+func TestRequest_GetURL(t *testing.T) {
+	httpRequest, _ := http.NewRequest("PATCH", "http://localhost:8080/v1/resource/1?query=string", nil)
+
+	request := Request{}
+	request.SetHttpRequest(httpRequest)
+
+	assert.Equal(t, "/v1/resource/1", request.GetURL())
+}
+
 func TestRequest_GetParams(t *testing.T) {
 	httpRequest, _ := http.NewRequest("GET", "/resource/1", nil)
 	httpRequest = mux.SetURLVars(httpRequest, map[string]string{

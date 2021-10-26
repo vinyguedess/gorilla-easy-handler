@@ -25,6 +25,18 @@ func (request *Request) SetHttpRequest(httpRequest *http.Request) {
 	request.queries = httpRequest.URL.Query()
 }
 
+func (request *Request) GetMethod() string {
+	return request.httpRequest.Method
+}
+
+func (request *Request) GetURI() string {
+	return request.httpRequest.URL.RequestURI()
+}
+
+func (request *Request) GetURL() string {
+	return request.httpRequest.URL.Path
+}
+
 func (request *Request) GetParams(key string) string {
 	if value, ok := request.params[key]; ok {
 		return value
