@@ -28,6 +28,15 @@ func main() {
 
 ### Request
 
+#### GetMethod
+Returns HTTP Method used in current request.
+
+#### GetURI
+Returns current URI.
+
+#### GetURL
+Returns current URL.
+
 #### GetParams
 Get a URL param value. If not found return an empty string.
 ```go
