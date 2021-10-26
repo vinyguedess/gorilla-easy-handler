@@ -1,4 +1,6 @@
 [![CIBuild](https://github.com/vinyguedess/gorilla-easy-handler/actions/workflows/ci.yaml/badge.svg)](https://github.com/vinyguedess/gorilla-easy-handler/actions/workflows/ci.yaml)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b059180b48958b149f5d/maintainability)](https://codeclimate.com/github/vinyguedess/gorilla-easy-handler/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b059180b48958b149f5d/test_coverage)](https://codeclimate.com/github/vinyguedess/gorilla-easy-handler/test_coverage)
 
 # Gorilla Easy Handler
 Facilitator for handling [gorilla/mux](https://github.com/gorilla/mux) requests.
