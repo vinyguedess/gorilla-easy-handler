@@ -1,6 +1,8 @@
 package geh
 
 import (
+	"bytes"
+	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -81,4 +83,20 @@ func TestRequest_GetHeader(t *testing.T) {
 	request.SetHttpRequest(httpRequest)
 
 	assert.Equal(t, "application/json", request.GetHeader("Content-Type"))
+}
+
+func TestRequest_GetBody(t *testing.T) {
+	data, _ := json.Marshal(map[string]string{
+		"hello": "world",
+	})
+
+	httpRequest, _ := http.NewRequest("POST", "/resource", bytes.NewBuffer(data))
+	httpRequest.Header.Set("Content-Type", "application/json")
+
+	request := Request{}
+	request.SetHttpRequest(httpRequest)
+
+	assert.Equal(t, map[string]interface{}{
+		"hello": "world",
+	}, request.GetBody(map[string]string{}))
 }

@@ -1,6 +1,7 @@
 package geh
 
 import (
+	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
 	"net/url"
@@ -51,4 +52,11 @@ func (request *Request) GetQueryString(key string) string {
 
 func (request *Request) GetHeader(key string) string {
 	return request.httpRequest.Header.Get(key)
+}
+
+func (request *Request) GetBody(typo interface{}) interface{} {
+	decoder := json.NewDecoder(request.httpRequest.Body)
+	decoder.Decode(&typo)
+
+	return typo
 }
