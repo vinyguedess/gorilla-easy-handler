@@ -15,3 +15,11 @@ jobs:
         with:
           go-version: 1.16
       - run: make test
+      - name: Send coverage to CodeClimate
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageLocations: |
+            ${{ github.workspace }}/coverage/.coverage:gocov
+          prefix: gorilla-easy-handler
