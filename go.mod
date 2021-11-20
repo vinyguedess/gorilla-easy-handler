@@ -1,4 +1,4 @@
-module gorilla-easy-handler
+module github.com/vinyguedess/gorilla-easy-handler
 
 go 1.16
 
