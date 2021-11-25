@@ -22,4 +22,4 @@ jobs:
         with:
           coverageLocations: |
             ${{ github.workspace }}/coverage/.coverage:gocov
-          prefix: gorilla-easy-handler
+          prefix: github.com/vinyguedess/gorilla-easy-handler
