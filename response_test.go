@@ -15,23 +15,7 @@ func TestResponse_SetHeader(t *testing.T) {
 	response.SetResponseWriter(responseWriter).
 		SetHeader("Hello", "world")
 
-	assert.Equal(t, "world", response.GetHeader("Hello"))
-}
-
-func TestResponse_GetHeaders(t *testing.T) {
-	responseWriter := httptest.NewRecorder()
-
-	response := Response{}
-	response.SetResponseWriter(responseWriter).
-		SetHeader("Hello", "world")
-
-	assert.Equal(
-		t,
-		map[string]string{
-			"Hello": "world",
-		},
-		response.GetHeaders(),
-	)
+	assert.Equal(t, "world", responseWriter.Header().Get("Hello"))
 }
 
 func TestResponse_SetStatus(t *testing.T) {
@@ -54,7 +38,7 @@ func TestResponse_Json(t *testing.T) {
 		})
 
 	assert.Equal(t, "{\"hello\":\"world\"}", responseWriter.Body.String())
-	assert.Equal(t, "application/json", response.GetHeader("Content-Type"))
+	assert.Equal(t, "application/json", responseWriter.Header().Get("Content-Type"))
 }
 
 func TestResponse_Html(t *testing.T) {
@@ -65,7 +49,7 @@ func TestResponse_Html(t *testing.T) {
 		Html("<h1>Hello</h1>")
 
 	assert.Equal(t, "<h1>Hello</h1>", responseWriter.Body.String())
-	assert.Equal(t, "text/html", response.GetHeader("Content-Type"))
+	assert.Equal(t, "text/html", responseWriter.Header().Get("Content-Type"))
 }
 
 func TestResponse_Text(t *testing.T) {
@@ -76,5 +60,5 @@ func TestResponse_Text(t *testing.T) {
 		Text("oi ne")
 
 	assert.Equal(t, "oi ne", responseWriter.Body.String())
-	assert.Equal(t, "plain/text", response.GetHeader("Content-Type"))
+	assert.Equal(t, "plain/text", responseWriter.Header().Get("Content-Type"))
 }

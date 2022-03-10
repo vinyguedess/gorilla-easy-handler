@@ -22,24 +22,8 @@ func (response *Response) SetResponseWriter(responseWriter http.ResponseWriter) 
 }
 
 func (response *Response) SetHeader(key string, value string) *Response {
-	if len(response.headers) == 0 {
-		response.headers = map[string]string{}
-	}
-
-	response.headers[key] = value
+	response.responseWriter.Header().Set(key, value)
 	return response
-}
-
-func (response *Response) GetHeader(key string) string {
-	if value, ok := response.headers[key]; ok {
-		return value
-	}
-
-	return ""
-}
-
-func (response *Response) GetHeaders() map[string]string {
-	return response.headers
 }
 
 func (response *Response) SetStatus(status int) *Response {
@@ -48,18 +32,24 @@ func (response *Response) SetStatus(status int) *Response {
 }
 
 func (response *Response) Json(data interface{}) *Response {
+	response.SetHeader("Content-Type", "application/json")
+
 	responseData, _ := json.Marshal(data)
 	response.responseWriter.Write(responseData)
 
-	return response.SetHeader("Content-Type", "application/json")
+	return response
 }
 
 func (response *Response) Html(data string) *Response {
+	response.SetHeader("Content-Type", "text/html")
 	response.responseWriter.Write([]byte(data))
-	return response.SetHeader("Content-Type", "text/html")
+
+	return response
 }
 
 func (response *Response) Text(data string) *Response {
+	response.SetHeader("Content-Type", "plain/text")
 	response.responseWriter.Write([]byte(data))
-	return response.SetHeader("Content-Type", "plain/text")
+
+	return response
 }
