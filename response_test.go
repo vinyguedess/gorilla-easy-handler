@@ -25,7 +25,13 @@ func TestResponse_SetStatus(t *testing.T) {
 	response.SetResponseWriter(responseWriter).
 		SetStatus(http.StatusCreated)
 
-	assert.Equal(t, http.StatusCreated, responseWriter.Code)
+	assert.Equal(t, http.StatusCreated, response.GetStatus())
+}
+
+func TestResponse_GetStatus_IfNoStatusDefined(t *testing.T) {
+	response := Response{}
+
+	assert.Equal(t, http.StatusOK, response.GetStatus())
 }
 
 func TestResponse_Json(t *testing.T) {

@@ -6,8 +6,9 @@ import (
 )
 
 type Response struct {
-	responseWriter http.ResponseWriter
 	headers        map[string]string
+	responseWriter http.ResponseWriter
+	status         int
 }
 
 func NewResponse(responseWriter http.ResponseWriter) Response {
@@ -47,8 +48,16 @@ func (response *Response) GetHeaderOrDefaultValue(key string, defaultValue strin
 }
 
 func (response *Response) SetStatus(status int) *Response {
-	response.responseWriter.WriteHeader(status)
+	response.status = status
 	return response
+}
+
+func (response *Response) GetStatus() int {
+	if response.status == 0 {
+		response.status = http.StatusOK
+	}
+
+	return response.status
 }
 
 func (response *Response) Json(data interface{}) *Response {

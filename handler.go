@@ -14,6 +14,7 @@ func Handler(handler EasyHandler) MuxHandler {
 		response := NewResponse(responseWriter)
 
 		receivedResponse := handler(request, response)
+		responseWriter.WriteHeader(receivedResponse.GetStatus())
 		for key, value := range receivedResponse.GetHeaders() {
 			responseWriter.Header().Set(key, value)
 		}
