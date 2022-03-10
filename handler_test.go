@@ -1,15 +1,16 @@
 package geh
 
 import (
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestHandler(t *testing.T) {
-	handler := Handler(func(request Request, response Response) {
-		response.Json(map[string]string{
+	handler := Handler(func(request Request, response Response) *Response {
+		return response.Json(map[string]string{
 			"hello": "world",
 		})
 	})
@@ -17,7 +18,6 @@ func TestHandler(t *testing.T) {
 	httpRequest, _ := http.NewRequest("GET", "/resource", nil)
 	responseWriter := httptest.NewRecorder()
 	handler(responseWriter, httpRequest)
-
 
 	assert.Equal(t, "{\"hello\":\"world\"}", responseWriter.Body.String())
 	assert.Equal(t, "application/json", responseWriter.Header().Get("Content-Type"))

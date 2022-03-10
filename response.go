@@ -7,6 +7,7 @@ import (
 
 type Response struct {
 	responseWriter http.ResponseWriter
+	headers        map[string]string
 }
 
 func NewResponse(responseWriter http.ResponseWriter) Response {
@@ -21,8 +22,24 @@ func (response *Response) SetResponseWriter(responseWriter http.ResponseWriter) 
 }
 
 func (response *Response) SetHeader(key string, value string) *Response {
-	response.responseWriter.Header().Set(key, value)
+	if len(response.headers) == 0 {
+		response.headers = map[string]string{}
+	}
+
+	response.headers[key] = value
 	return response
+}
+
+func (response *Response) GetHeader(key string) string {
+	if value, ok := response.headers[key]; ok {
+		return value
+	}
+
+	return ""
+}
+
+func (response *Response) GetHeaders() map[string]string {
+	return response.headers
 }
 
 func (response *Response) SetStatus(status int) *Response {
