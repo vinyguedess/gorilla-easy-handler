@@ -22,8 +22,28 @@ func (response *Response) SetResponseWriter(responseWriter http.ResponseWriter) 
 }
 
 func (response *Response) SetHeader(key string, value string) *Response {
-	response.responseWriter.Header().Set(key, value)
+	if response.headers == nil {
+		response.headers = map[string]string{}
+	}
+
+	response.headers[key] = value
 	return response
+}
+
+func (response *Response) GetHeaders() map[string]string {
+	return response.headers
+}
+
+func (response *Response) GetHeader(key string) string {
+	return response.GetHeaderOrDefaultValue(key, "")
+}
+
+func (response *Response) GetHeaderOrDefaultValue(key string, defaultValue string) string {
+	if value, ok := response.headers[key]; ok {
+		return value
+	}
+
+	return defaultValue
 }
 
 func (response *Response) SetStatus(status int) *Response {
