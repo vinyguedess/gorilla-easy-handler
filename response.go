@@ -9,6 +9,7 @@ type Response struct {
 	headers        map[string]string
 	responseWriter http.ResponseWriter
 	status         int
+	data           string
 }
 
 func NewResponse(responseWriter http.ResponseWriter) Response {
@@ -60,25 +61,23 @@ func (response *Response) GetStatus() int {
 	return response.status
 }
 
+func (response *Response) GetData() string {
+	return response.data
+}
+
 func (response *Response) Json(data interface{}) *Response {
-	response.SetHeader("Content-Type", "application/json")
-
 	responseData, _ := json.Marshal(data)
-	response.responseWriter.Write(responseData)
+	response.data = string(responseData)
 
-	return response
+	return response.SetHeader("Content-Type", "application/json")
 }
 
 func (response *Response) Html(data string) *Response {
-	response.SetHeader("Content-Type", "text/html")
-	response.responseWriter.Write([]byte(data))
-
-	return response
+	response.data = data
+	return response.SetHeader("Content-Type", "text/html")
 }
 
 func (response *Response) Text(data string) *Response {
-	response.SetHeader("Content-Type", "plain/text")
-	response.responseWriter.Write([]byte(data))
-
-	return response
+	response.data = data
+	return response.SetHeader("Content-Type", "plain/text")
 }

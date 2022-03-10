@@ -43,7 +43,7 @@ func TestResponse_Json(t *testing.T) {
 			"hello": "world",
 		})
 
-	assert.Equal(t, "{\"hello\":\"world\"}", responseWriter.Body.String())
+	assert.Equal(t, "{\"hello\":\"world\"}", response.GetData())
 	assert.Equal(t, "application/json", response.GetHeader("Content-Type"))
 }
 
@@ -54,7 +54,7 @@ func TestResponse_Html(t *testing.T) {
 	response.SetResponseWriter(responseWriter).
 		Html("<h1>Hello</h1>")
 
-	assert.Equal(t, "<h1>Hello</h1>", responseWriter.Body.String())
+	assert.Equal(t, "<h1>Hello</h1>", response.GetData())
 	assert.Equal(t, "text/html", response.GetHeader("Content-Type"))
 }
 
@@ -65,6 +65,6 @@ func TestResponse_Text(t *testing.T) {
 	response.SetResponseWriter(responseWriter).
 		Text("oi ne")
 
-	assert.Equal(t, "oi ne", responseWriter.Body.String())
+	assert.Equal(t, "oi ne", response.GetData())
 	assert.Equal(t, "plain/text", response.GetHeader("Content-Type"))
 }

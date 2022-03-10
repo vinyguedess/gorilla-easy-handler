@@ -18,5 +18,6 @@ func Handler(handler EasyHandler) MuxHandler {
 		for key, value := range receivedResponse.GetHeaders() {
 			responseWriter.Header().Set(key, value)
 		}
+		responseWriter.Write([]byte(receivedResponse.GetData()))
 	}
 }
