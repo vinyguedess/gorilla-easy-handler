@@ -4,16 +4,20 @@ import (
 	"net/http"
 )
 
-type EasyHandler func(request Request, response Response) *Response
+type EasyHandler func(
+	request Request,
+	response Response,
+	arguments ...interface{},
+) *Response
 
 type MuxHandler func(w http.ResponseWriter, r *http.Request)
 
-func Handler(handler EasyHandler) MuxHandler {
+func Handler(handler EasyHandler, arguments ...interface{}) MuxHandler {
 	return func(responseWriter http.ResponseWriter, httpRequest *http.Request) {
 		request := NewRequest(httpRequest)
 		response := NewResponse(responseWriter)
 
-		receivedResponse := handler(request, response)
+		receivedResponse := handler(request, response, arguments)
 		for key, value := range receivedResponse.GetHeaders() {
 			responseWriter.Header().Set(key, value)
 		}

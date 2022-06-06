@@ -9,11 +9,17 @@ import (
 )
 
 func TestHandler(t *testing.T) {
-	handler := Handler(func(request Request, response Response) *Response {
-		return response.Json(map[string]string{
-			"hello": "world",
-		})
-	})
+	handler := Handler(
+		func(
+			request Request, response Response, arguments ...interface{},
+		) *Response {
+			return response.Json(
+				map[string]string{
+					"hello": "world",
+				},
+			)
+		},
+	)
 
 	httpRequest, _ := http.NewRequest("GET", "/resource", nil)
 	responseWriter := httptest.NewRecorder()
