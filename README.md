@@ -14,7 +14,14 @@ and don't require developer to worry about some things.
 First, we create a basic Gorrila/Mux API.
 
 ```go
-func HomeHandler(request geh.Request, response geh.Response) {
+func HomeHandler(
+	request geh.Request, 
+	response geh.Response,
+	arguments ...interface{},
+) {
+	printSomething := arguments[0].(func (string))
+	printSomething("print something")
+
 	geh.Status(http.StatusOk).
 		Json(map[string]interface{}{
             "hello": "I",
@@ -23,8 +30,12 @@ func HomeHandler(request geh.Request, response geh.Response) {
 }
 
 func main() {
+	func printSomething(something string) {
+		print(something)
+	}
+
     r := mux.NewRouter()
-    r.HandleFunc("/", geh.Handler(HomeHandler))
+    r.HandleFunc("/", geh.Handler(HomeHandler, printSomething))
 }
 ```
 

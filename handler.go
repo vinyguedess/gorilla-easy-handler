@@ -17,7 +17,7 @@ func Handler(handler EasyHandler, arguments ...interface{}) MuxHandler {
 		request := NewRequest(httpRequest)
 		response := NewResponse(responseWriter)
 
-		receivedResponse := handler(request, response, arguments)
+		receivedResponse := handler(request, response, arguments...)
 		for key, value := range receivedResponse.GetHeaders() {
 			responseWriter.Header().Set(key, value)
 		}
