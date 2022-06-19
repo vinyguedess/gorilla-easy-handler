@@ -7,15 +7,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var endpointDocs = map[string]interface{}{
-	"swagger": "2.0",
-	"info": map[string]interface{}{
-		"title": "Gorilla Easy Handler",
-	},
-	"tags":        []DocEndpointTag{},
-	"paths":       map[string]interface{}{},
-	"definitions": map[string]interface{}{},
-}
+var endpointDocs DocApp
 
 type GEHRouter struct {
 	muxRouter *mux.Router
@@ -37,10 +29,9 @@ func (router *GEHRouter) Handle(
 }
 
 func NewRouter(
-	appName string, version string,
+	title string, version string,
 ) *GEHRouter {
-	endpointDocs["info"].(map[string]interface{})["title"] = appName
-	endpointDocs["info"].(map[string]interface{})["version"] = version
+	endpointDocs = NewDocApp(title, version)
 
 	muxRouter := mux.NewRouter()
 	muxRouter.HandleFunc(

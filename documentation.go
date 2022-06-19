@@ -1,7 +1,10 @@
 package geh
 
-import "io/ioutil"
+import (
+	"io/ioutil"
+)
 
+type DocEndpointHttpProtocol map[string]DocEndpoint
 type DocEndpointParameterIn string
 type DocEndpointType string
 
@@ -16,6 +19,20 @@ const (
 	DocEndpointTypeString  DocEndpointType = "string"
 	DocEndpointTypeInteger DocEndpointType = "integer"
 )
+
+type DocAppInfo struct {
+	Title       string `json:"title"`
+	Version     string `json:"version,omitempty"`
+	Description string `json:"description,omitempty"`
+}
+
+type DocApp struct {
+	Swagger     string                             `json:"swagger"`
+	Info        DocAppInfo                         `json:"info"`
+	Tags        []DocEndpointTag                   `json:"tags,omitempty"`
+	Paths       map[string]DocEndpointHttpProtocol `json:"paths"`
+	Definitions map[string]DocEndpointDefinition   `json:"definitions"`
+}
 
 type DocEndpointTag struct {
 	Name        string `json:"name"`
@@ -54,30 +71,46 @@ type DocEndpointDefinition struct {
 	Properties map[string]DocEndpointParameter `json:"properties"`
 }
 
+func NewDocApp(title string, version string) DocApp {
+	return DocApp{
+		Swagger: "2.0",
+		Info: DocAppInfo{
+			Title:   title,
+			Version: version,
+		},
+		Paths:       map[string]DocEndpointHttpProtocol{},
+		Definitions: map[string]DocEndpointDefinition{},
+	}
+}
+
 func addEndpointToDocs(
 	method string, endpoint string, docs DocEndpoint,
 ) {
-	if _, ok := endpointDocs["paths"].(map[string]interface{})[endpoint]; !ok {
-		endpointDocs["paths"].(map[string]interface{})[endpoint] = map[string]interface{}{}
+	if _, ok := endpointDocs.Paths[endpoint]; !ok {
+		endpointDocs.Paths[endpoint] = DocEndpointHttpProtocol{}
 	}
 
-	if _, ok := endpointDocs["paths"].(map[string]interface{})[endpoint].(map[string]interface{})[method]; !ok {
-		endpointDocs["paths"].(map[string]interface{})[endpoint].(map[string]interface{})[method] = map[string]interface{}{}
-	}
+	addEndpointTags(&docs, endpoint, method)
+	addEndpointDefinitions(&docs)
 
+	endpointDocs.Paths[endpoint][method] = docs
+}
+
+func addEndpointTags(
+	docs *DocEndpoint, endpoint string, method string,
+) {
 	for _, tag := range docs.Tags {
-		endpointDocs["tags"] = append(
-			endpointDocs["tags"].([]DocEndpointTag), tag,
+		endpointDocs.Tags = append(
+			endpointDocs.Tags, tag,
 		)
-
 		docs.ParsedTags = append(docs.ParsedTags, tag.Name)
 	}
+}
 
-	endpointDocs["paths"].(map[string]interface{})[endpoint].(map[string]interface{})[method] = docs
-
+func addEndpointDefinitions(docs *DocEndpoint) {
 	for schemaName, schemaDeclaration := range docs.Definitions {
-		if _, ok := endpointDocs["definitions"].(map[string]interface{})[schemaName]; !ok {
-			endpointDocs["definitions"].(map[string]interface{})[schemaName] = schemaDeclaration
+		if _, ok := endpointDocs.Definitions[schemaName]; !ok {
+			endpointDocs.Definitions[schemaName] = schemaDeclaration
 		}
 	}
 }
