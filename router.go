@@ -40,6 +40,7 @@ func NewRouter(
 	appName string, version string,
 ) *GEHRouter {
 	endpointDocs["info"].(map[string]interface{})["title"] = appName
+	endpointDocs["info"].(map[string]interface{})["version"] = version
 
 	muxRouter := mux.NewRouter()
 	muxRouter.HandleFunc(
