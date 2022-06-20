@@ -80,6 +80,7 @@ type DocEndpointParameter struct {
 	Items       *DocEndpointParameterItem `json:"items,omitempty"`
 	Schema      *DocEndpointSchema        `json:"schema,omitempty"`
 	Example     string                    `json:"example,omitempty"`
+	Default     interface{}               `json:"default,omitempty"`
 }
 
 type DocEndpointDefinition struct {
