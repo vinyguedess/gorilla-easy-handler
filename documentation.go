@@ -79,6 +79,7 @@ type DocEndpointParameter struct {
 	Format      string                   `json:"format,omitempty"`
 	Items       DocEndpointParameterItem `json:"items,omitempty"`
 	Schema      DocEndpointSchema        `json:"schema,omitempty"`
+	Example     string                   `json:"example,omitempty"`
 }
 
 type DocEndpointDefinition struct {
