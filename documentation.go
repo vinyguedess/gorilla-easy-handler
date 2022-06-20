@@ -2,6 +2,9 @@ package geh
 
 import (
 	"io/ioutil"
+	"path"
+	"path/filepath"
+	"runtime"
 )
 
 type DocEndpointHttpProtocol map[string]DocEndpoint
@@ -118,7 +121,15 @@ func addEndpointDefinitions(docs *DocEndpoint) {
 func docsHandler(
 	request Request, response Response, _ ...interface{},
 ) *Response {
-	fileContent, _ := ioutil.ReadFile("./templates/swagger-ui/index.html")
+	_, filename, _, _ := runtime.Caller(0)
+	currentDirectory := filepath.Dir(filename)
+
+	fileContent, _ := ioutil.ReadFile(
+		path.Join(
+			currentDirectory,
+			"templates/swagger-ui/index.html",
+		),
+	)
 	return response.Html(string(fileContent))
 }
 

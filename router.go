@@ -2,6 +2,8 @@ package geh
 
 import (
 	"net/http"
+	"path/filepath"
+	"runtime"
 	"strings"
 
 	"github.com/gorilla/mux"
@@ -43,8 +45,11 @@ func NewRouter(
 		Handler(docsSwaggerHandler),
 	).Methods(http.MethodGet)
 
+	_, filename, _, _ := runtime.Caller(0)
+	currentDirectory := filepath.Dir(filename)
+
 	muxRouter.PathPrefix("/assets/").Handler(
-		http.FileServer(http.Dir("./")),
+		http.FileServer(http.Dir(currentDirectory)),
 	)
 
 	return &GEHRouter{
