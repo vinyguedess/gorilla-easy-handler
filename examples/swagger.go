@@ -68,7 +68,7 @@ func main() {
 			},
 			Definitions: map[string]geh.DocEndpointDefinition{
 				"TestObject": {
-					Type: "object",
+					Type: geh.DocEndpointTypeObject,
 					Properties: map[string]geh.DocEndpointParameter{
 						"name": {
 							Type:     geh.DocEndpointTypeString,

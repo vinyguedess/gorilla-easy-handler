@@ -139,7 +139,7 @@ func Test_AddEndpointToDocs_EndpointDefinitions(t *testing.T) {
 			},
 			Definitions: map[string]DocEndpointDefinition{
 				"TestObject": {
-					Type: "object",
+					Type: DocEndpointTypeObject,
 					Properties: map[string]DocEndpointParameter{
 						"name": {
 							Type:     "string",
@@ -168,7 +168,7 @@ func Test_AddEndpointToDocs_EndpointDefinitions(t *testing.T) {
 					},
 					Definitions: map[string]DocEndpointDefinition{
 						"TestObject": {
-							Type: "object",
+							Type: DocEndpointTypeObject,
 							Properties: map[string]DocEndpointParameter{
 								"name": {
 									Type:     "string",
@@ -186,7 +186,7 @@ func Test_AddEndpointToDocs_EndpointDefinitions(t *testing.T) {
 		t,
 		map[string]DocEndpointDefinition{
 			"TestObject": {
-				Type: "object",
+				Type: DocEndpointTypeObject,
 				Properties: map[string]DocEndpointParameter{
 					"name": {
 						Type:     "string",

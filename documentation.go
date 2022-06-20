@@ -29,6 +29,9 @@ const (
 const (
 	DocEndpointTypeString  DocEndpointType = "string"
 	DocEndpointTypeInteger DocEndpointType = "integer"
+	DocEndpointTypeBoolean DocEndpointType = "boolean"
+	DocEndpointTypeObject  DocEndpointType = "object"
+	DocEndpointTypeArray   DocEndpointType = "array"
 )
 
 type DocAppInfo struct {
@@ -84,7 +87,7 @@ type DocEndpointParameter struct {
 }
 
 type DocEndpointDefinition struct {
-	Type       string                          `json:"type"`
+	Type       DocEndpointType                 `json:"type"`
 	Properties map[string]DocEndpointParameter `json:"properties"`
 }
 
@@ -96,9 +99,9 @@ type DocEndpointParameterItem struct {
 }
 
 type DocEndpointSchema struct {
-	Type                 string `json:"type,omitempty"`
-	Ref                  string `json:"$ref,omitempty"`
-	AdditionalProperties bool   `json:"additionalProperties,omitempty"`
+	Type                 DocEndpointType `json:"type,omitempty"`
+	Ref                  string          `json:"$ref,omitempty"`
+	AdditionalProperties bool            `json:"additionalProperties,omitempty"`
 }
 
 func NewDocApp(title string, version string) DocApp {
