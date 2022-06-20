@@ -94,8 +94,8 @@ type DocEndpointParameterItem struct {
 }
 
 type DocEndpointSchema struct {
-	Type                 string `json:"type"`
-	Ref                  string `json:"$ref"`
+	Type                 string `json:"type,omitempty"`
+	Ref                  string `json:"$ref,omitempty"`
 	AdditionalProperties bool   `json:"additionalProperties,omitempty"`
 }
 
