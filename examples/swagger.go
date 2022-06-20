@@ -56,8 +56,8 @@ func main() {
 				{
 					Name: "body",
 					In:   geh.DocEndpointParameterInBody,
-					Schema: map[string]string{
-						"$ref": "#/definitions/TestObject",
+					Schema: geh.DocEndpointSchema{
+						Ref: "#/definitions/TestObject",
 					},
 				},
 			},

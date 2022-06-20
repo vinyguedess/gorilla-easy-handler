@@ -8,8 +8,16 @@ import (
 )
 
 type DocEndpointHttpProtocol map[string]DocEndpoint
+type DocEndpointProduces string
 type DocEndpointParameterIn string
 type DocEndpointType string
+
+const (
+	DocEndpointProducesJson DocEndpointProduces = "application/json"
+	DocEndpointProducesXml  DocEndpointProduces = "application/xml"
+	DocEndpointProducesYaml DocEndpointProduces = "application/yaml"
+	DocEndpointProducesText DocEndpointProduces = "text/plain"
+)
 
 const (
 	DocEndpointParameterInQuery  DocEndpointParameterIn = "query"
@@ -49,29 +57,46 @@ type DocEndpoint struct {
 	OperationId string                           `json:"operationId"`
 	Responses   map[int]DocEndpointResponse      `json:"responses"`
 	Parameters  []DocEndpointParameter           `json:"parameters,omitempty"`
+	Produces    []DocEndpointProduces            `json:"produces,omitempty"`
 	Definitions map[string]DocEndpointDefinition `json:"-"`
 
 	ParsedTags []string `json:"tags,omitempty"`
 }
 
 type DocEndpointResponse struct {
-	Description string            `json:"description"`
-	Schema      map[string]string `json:"schema,omitempty"`
+	Description string                          `json:"description"`
+	Schema      DocEndpointSchema               `json:"schema,omitempty"`
+	Headers     map[string]DocEndpointParameter `json:"headers,omitempty"`
 }
 
 type DocEndpointParameter struct {
-	In       DocEndpointParameterIn `json:"in,omitempty"`
-	Name     string                 `json:"name,omitempty"`
-	Required bool                   `json:"required,omitempty"`
-	Type     DocEndpointType        `json:"type,omitempty"`
-	Enum     []string               `json:"enum,omitempty"`
-	Format   string                 `json:"format,omitempty"`
-	Schema   map[string]string      `json:"schema,omitempty"`
+	In          DocEndpointParameterIn   `json:"in,omitempty"`
+	Name        string                   `json:"name,omitempty"`
+	Description string                   `json:"description,omitempty"`
+	Required    bool                     `json:"required,omitempty"`
+	Type        DocEndpointType          `json:"type,omitempty"`
+	Enum        []string                 `json:"enum,omitempty"`
+	Format      string                   `json:"format,omitempty"`
+	Items       DocEndpointParameterItem `json:"items,omitempty"`
+	Schema      DocEndpointSchema        `json:"schema,omitempty"`
 }
 
 type DocEndpointDefinition struct {
 	Type       string                          `json:"type"`
 	Properties map[string]DocEndpointParameter `json:"properties"`
+}
+
+type DocEndpointParameterItem struct {
+	Type   DocEndpointType `json:"type,omitempty"`
+	Enum   []string        `json:"enum,omitempty"`
+	Format string          `json:"format,omitempty"`
+	Ref    string          `json:"$ref,omitempty"`
+}
+
+type DocEndpointSchema struct {
+	Type                 string `json:"type"`
+	Ref                  string `json:"$ref"`
+	AdditionalProperties bool   `json:"additionalProperties,omitempty"`
 }
 
 func NewDocApp(title string, version string) DocApp {

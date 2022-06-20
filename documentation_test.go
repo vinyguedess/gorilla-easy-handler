@@ -132,8 +132,8 @@ func Test_AddEndpointToDocs_EndpointDefinitions(t *testing.T) {
 				{
 					In:   DocEndpointParameterInBody,
 					Name: "body",
-					Schema: map[string]string{
-						"$ref": "#/definitions/TestObject",
+					Schema: DocEndpointSchema{
+						Ref: "#/definitions/TestObject",
 					},
 				},
 			},
@@ -161,8 +161,8 @@ func Test_AddEndpointToDocs_EndpointDefinitions(t *testing.T) {
 						{
 							In:   DocEndpointParameterInBody,
 							Name: "body",
-							Schema: map[string]string{
-								"$ref": "#/definitions/TestObject",
+							Schema: DocEndpointSchema{
+								Ref: "#/definitions/TestObject",
 							},
 						},
 					},
