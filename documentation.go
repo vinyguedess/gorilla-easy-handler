@@ -65,21 +65,21 @@ type DocEndpoint struct {
 
 type DocEndpointResponse struct {
 	Description string                          `json:"description"`
-	Schema      DocEndpointSchema               `json:"schema,omitempty"`
+	Schema      *DocEndpointSchema              `json:"schema,omitempty"`
 	Headers     map[string]DocEndpointParameter `json:"headers,omitempty"`
 }
 
 type DocEndpointParameter struct {
-	In          DocEndpointParameterIn   `json:"in,omitempty"`
-	Name        string                   `json:"name,omitempty"`
-	Description string                   `json:"description,omitempty"`
-	Required    bool                     `json:"required,omitempty"`
-	Type        DocEndpointType          `json:"type,omitempty"`
-	Enum        []string                 `json:"enum,omitempty"`
-	Format      string                   `json:"format,omitempty"`
-	Items       DocEndpointParameterItem `json:"items,omitempty"`
-	Schema      DocEndpointSchema        `json:"schema,omitempty"`
-	Example     string                   `json:"example,omitempty"`
+	In          DocEndpointParameterIn    `json:"in,omitempty"`
+	Name        string                    `json:"name,omitempty"`
+	Description string                    `json:"description,omitempty"`
+	Required    bool                      `json:"required,omitempty"`
+	Type        DocEndpointType           `json:"type,omitempty"`
+	Enum        []string                  `json:"enum,omitempty"`
+	Format      string                    `json:"format,omitempty"`
+	Items       *DocEndpointParameterItem `json:"items,omitempty"`
+	Schema      *DocEndpointSchema        `json:"schema,omitempty"`
+	Example     string                    `json:"example,omitempty"`
 }
 
 type DocEndpointDefinition struct {
@@ -88,7 +88,7 @@ type DocEndpointDefinition struct {
 }
 
 type DocEndpointParameterItem struct {
-	Type   DocEndpointType `json:"type,omitempty"`
+	Type   DocEndpointType `json:"type"`
 	Enum   []string        `json:"enum,omitempty"`
 	Format string          `json:"format,omitempty"`
 	Ref    string          `json:"$ref,omitempty"`
