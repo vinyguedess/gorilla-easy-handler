@@ -27,7 +27,9 @@ func (router *GEHRouter) Handle(
 ) *mux.Route {
 	addEndpointToDocs(strings.ToLower(method), endpoint, docs)
 
-	return router.muxRouter.HandleFunc(endpoint, handler)
+	return router.muxRouter.
+		HandleFunc(endpoint, handler).
+		Methods(method)
 }
 
 func NewRouter(
